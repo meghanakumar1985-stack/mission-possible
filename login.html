@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Mission Possible</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #1a1a4e, #24243e);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,180,50,0.2);
+      border-radius: 24px;
+      padding: 44px 36px;
+      width: 100%; max-width: 420px;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.4);
+    }
+
+    .logo { text-align: center; margin-bottom: 32px; }
+
+    .logo .icon { font-size: 3rem; margin-bottom: 8px; }
+
+    .logo h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(90deg, #FFB830, #FF6B6B, #FF8E53);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .logo p { color: rgba(255,255,255,0.45); font-size: 0.9rem; margin-top: 4px; }
+
+    .flash { padding: 10px 14px; border-radius: 10px; margin-bottom: 16px; font-size: 0.9rem; font-weight: 500; }
+    .flash.error { background: rgba(255,100,100,0.15); color: #ff8080; border: 1px solid rgba(255,100,100,0.3); }
+    .flash.success { background: rgba(80,255,150,0.1); color: #5fffaa; border: 1px solid rgba(80,255,150,0.2); }
+
+    .field { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: white;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: #FFB830; }
+    input::placeholder { color: rgba(255,255,255,0.25); }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #FFB830, #FF6B6B);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn:hover { opacity: 0.9; }
+    .btn:active { transform: scale(0.98); }
+
+    .register-link {
+      text-align: center;
+      margin-top: 22px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+    }
+
+    .register-link a { color: #FFB830; text-decoration: none; font-weight: 600; }
+    .register-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="icon">🎯</div>
+    <h1>Mission Possible</h1>
+    <p>Welcome back, agent!</p>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash {{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <form method="POST">
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Your username" required/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Your password" required/>
+    </div>
+    <button type="submit" class="btn">🔓 Enter Mission HQ</button>
+  </form>
+
+  <p class="register-link">New agent? <a href="/register">Create your profile</a></p>
+</div>
+</body>
+</html>
