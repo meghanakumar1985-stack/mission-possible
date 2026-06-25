@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏆 Mission Champions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#FFB830;--coral:#FF6B6B;--card-bg:rgba(255,255,255,0.05);--border:rgba(255,184,48,0.15);--muted:rgba(255,255,255,0.4)}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:linear-gradient(135deg,#0f0c29,#1a1a4e,#24243e);color:rgba(255,255,255,0.88)}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(0,0,0,0.3);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-brand{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(90deg,#FFB830,#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .nav-link{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;padding:6px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:20px;transition:all 0.2s}
+    .nav-link:hover,.nav-link.active{color:var(--gold);border-color:var(--gold)}
+    .main{max-width:680px;margin:0 auto;padding:36px 20px}
+    .hero{text-align:center;margin-bottom:36px}
+    .hero h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,#FFB830,#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+    .hero p{color:var(--muted);font-size:0.9rem}
+    .scoring{display:flex;gap:10px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+    .score-pill{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:0.8rem;color:var(--muted)}
+    .score-pill span{font-weight:700}
+    .score-pill.high span{color:#ff6b6b}
+    .score-pill.med span{color:var(--gold)}
+    .score-pill.low span{color:#50dc82}
+    .board-list{display:flex;flex-direction:column;gap:12px}
+    .board-item{display:flex;align-items:center;gap:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:16px 20px;transition:border-color 0.2s}
+    .board-item:hover{border-color:rgba(255,184,48,0.35)}
+    .board-item.top1{background:rgba(255,215,0,0.06);border-color:rgba(255,215,0,0.3)}
+    .board-item.top2{background:rgba(192,192,192,0.05);border-color:rgba(192,192,192,0.2)}
+    .board-item.top3{background:rgba(205,127,50,0.06);border-color:rgba(205,127,50,0.2)}
+    .rank-medal{font-size:1.6rem;width:36px;text-align:center}
+    .rank-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--muted);width:36px;text-align:center}
+    .board-avatar{width:48px;height:48px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;flex-shrink:0}
+    .board-info{flex:1}
+    .board-name{font-weight:700;font-size:1rem}
+    .board-disney{font-size:0.76rem;color:var(--gold);margin-top:2px}
+    .board-stats{font-size:0.76rem;color:var(--muted);margin-top:3px}
+    .board-pts{text-align:right}
+    .pts-num{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--gold);display:block}
+    .pts-label{font-size:0.72rem;color:var(--muted)}
+    .empty{text-align:center;padding:48px;color:var(--muted)}
+    .empty .big{font-size:3rem;margin-bottom:10px}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">🎯 Mission Possible</div>
+  <div style="display:flex;gap:8px">
+    <a class="nav-link" href="/dashboard">← Dashboard</a>
+    <a class="nav-link active" href="/leaderboard">🏆 Leaderboard</a>
+  </div>
+</nav>
 
+<div class="main">
+  <div class="hero">
+    <h1>🏆 Mission Champions</h1>
+    <p>Complete tasks to earn points and climb the ranks!</p>
+  </div>
+
+  <div class="scoring">
+    <div class="score-pill high">🔥 High Priority = <span>5 pts</span></div>
+    <div class="score-pill med">⚡ Medium Priority = <span>3 pts</span></div>
+    <div class="score-pill low">🌿 Low Priority = <span>1 pt</span></div>
+  </div>
+
+  {% if board %}
+  <div class="board-list">
+    {% for member in board %}
+    <div class="board-item {% if loop.index0==0 %}top1{% elif loop.index0==1 %}top2{% elif loop.index0==2 %}top3{% endif %}">
+      {% if loop.index0 < 3 %}
+        <div class="rank-medal">{{ ['🥇','🥈','🥉'][loop.index0] }}</div>
+      {% else %}
+        <div class="rank-num">#{{ loop.index }}</div>
+      {% endif %}
+      {% if member.avatar %}<img class="board-avatar" src="/static/uploads/{{ member.avatar }}" alt=""/>
+      {% else %}<img class="board-avatar" src="https://api.dicebear.com/7.x/fun-emoji/svg?seed={{ member.display_name }}" alt=""/>{% endif %}
+      <div class="board-info">
+        <div class="board-name">{{ member.display_name }}</div>
+        {% if member.disney_char %}<div class="board-disney">✨ {{ member.disney_char }}</div>{% endif %}
+        <div class="board-stats">{{ member.completed }} task{{ 's' if member.completed != 1 }} completed</div>
+      </div>
+      <div class="board-pts">
+        <span class="pts-num">{{ member.points }}</span>
+        <span class="pts-label">points</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="big">🚀</div>
+    <p>No scores yet! Complete tasks to appear here.</p>
+  </div>
+  {% endif %}
+</div>
+</body>
+</html>
