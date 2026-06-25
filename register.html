@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join Mission Possible 🎯</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #1a1a4e, #24243e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 180, 50, 0.2);
+            border-radius: 24px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.4)
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 28px
+        }
+
+        .logo h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FFB830, #FF6B6B, #FF8E53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 4px
+        }
+
+        .flash {
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            font-weight: 500
+        }
+
+        .flash.error {
+            background: rgba(255, 100, 100, 0.15);
+            color: #ff8080;
+            border: 1px solid rgba(255, 100, 100, 0.3)
+        }
+
+        .flash.success {
+            background: rgba(80, 255, 150, 0.1);
+            color: #5fffaa;
+            border: 1px solid rgba(80, 255, 150, 0.2)
+        }
+
+        .avatar-upload {
+            text-align: center;
+            margin-bottom: 24px
+        }
+
+        .avatar-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #FFB830;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            display: block;
+            background: rgba(255, 184, 48, 0.1)
+        }
+
+        .avatar-label {
+            display: inline-block;
+            cursor: pointer;
+            background: rgba(255, 184, 48, 0.15);
+            border: 1.5px dashed #FFB830;
+            color: #FFB830;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s
+        }
+
+        .avatar-label:hover {
+            background: rgba(255, 184, 48, 0.25)
+        }
+
+        .avatar-label input {
+            display: none
+        }
+
+        .disney-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.78rem;
+            margin-top: 6px
+        }
+
+        .field {
+            margin-bottom: 16px
+        }
+
+        label {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 13px 16px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.2s
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #FFB830
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.25)
+        }
+
+        .role-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 6px
+        }
+
+        .role-option {
+            position: relative
+        }
+
+        .role-option input {
+            display: none
+        }
+
+        .role-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center
+        }
+
+        .role-option input:checked+.role-card {
+            border-color: #FFB830;
+            background: rgba(255, 184, 48, 0.1)
+        }
+
+        .role-card .role-icon {
+            font-size: 1.8rem
+        }
+
+        .role-card .role-name {
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem
+        }
+
+        .role-card .role-desc {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #FFB830, #FF6B6B);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s, transform 0.1s
+        }
+
+        .btn:hover {
+            opacity: 0.9
+        }
+
+        .btn:active {
+            transform: scale(0.98)
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem
+        }
+
+        .login-link a {
+            color: #FFB830;
+            text-decoration: none;
+            font-weight: 600
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="logo">
+            <h1>🎯 Mission Possible</h1>
+            <p>Create your agent profile</p>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+        {% endwith %}
+        <form method="POST" enctype="multipart/form-data">
+            <div class="avatar-upload">
+                <img id="preview" class="avatar-preview" src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=default"
+                    alt="Avatar" />
+                <label class="avatar-label">
+                    🏰 Upload your Disney character photo
+                    <input type="file" name="avatar" accept="image/*" onchange="previewImage(this)" />
+                </label>
+                <p class="disney-hint">Pick your favourite Disney character as your avatar!</p>
+            </div>
+            <div class="field">
+                <label>Your Disney Character Name</label>
+                <input type="text" name="disney_char" placeholder="e.g. Moana, Simba, Elsa..." />
+            </div>
+            <div class="field">
+                <label>Display Name</label>
+                <input type="text" name="display_name" placeholder="How your team sees you" required />
+            </div>
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="e.g. meghana123" required />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Choose a strong password" required />
+            </div>
+            <div class="field">
+                <label>Your Role</label>
+                <div class="role-group">
+                    <label class="role-option">
+                        <input type="radio" name="role" value="manager" />
+                        <div class="role-card">
+                            <span class="role-icon">👑</span>
+                            <span class="role-name">Manager</span>
+                            <span class="role-desc">Full control, assign tasks, see all</span>
+                        </div>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="role" value="member" checked />
+                        <div class="role-card">
+                            <span class="role-icon">🚀</span>
+                            <span class="role-name">Member</span>
+                            <span class="role-desc">Add tasks, track progress</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn">🚀 Join the Mission</button>
+        </form>
+        <p class="login-link">Already an agent? <a href="/login">Log in here</a></p>
+    </div>
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => { document.getElementById('preview').src = e.target.result; };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
+
+</html>
